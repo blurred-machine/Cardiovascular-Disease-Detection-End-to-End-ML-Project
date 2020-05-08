@@ -11,15 +11,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import pickle 
-from sklearn.externals import joblib 
-from tqdm import tqdm
-
 import warnings
 warnings.filterwarnings("ignore")
 
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.compose import ColumnTransformer
+from sklearn.externals import joblib 
 
 import scipy.stats as stats
 from scipy.stats import norm ,rankdata
@@ -60,7 +57,6 @@ raw_df = pd.read_csv("cardio_train.csv", sep=";")
 print(raw_df.columns)
  
 z = np.abs(stats.zscore(raw_df))
-
 Q1 = raw_df.quantile(0.25)
 Q3 = raw_df.quantile(0.75)
 IQR = Q3 - Q1
@@ -75,8 +71,7 @@ raw_df = raw_df.ix[raw_df["age"] > 0]
 
 
 
-
-
+'''
 def rank_based_normalization(x):  
     newX = norm.ppf(rankdata(x)/(len(x) + 1))
     return newX
@@ -95,7 +90,7 @@ def feature_engg(feature):
     k2_2, p2 = normaltest(rank_based_normalization(feature))
     print("Normal test P2: ",p2)
     return rank_based_normalization(feature)
-
+'''
 
 def generate_report():
     y_pred = classifier.predict(X_test)    
@@ -111,15 +106,14 @@ def generate_report():
     
     
 
-   
+'''
 raw_df['age'] = feature_engg(raw_df['age'])
 raw_df['height'] = feature_engg(raw_df['height'])
 raw_df['weight'] = feature_engg(raw_df['weight'])
 
 raw_df['ap_hi'] = feature_engg(raw_df['ap_hi'])
 raw_df['ap_lo'] = feature_engg(raw_df['ap_lo'])
-
-
+'''
 
 cholesterol_encoding = pd.get_dummies(raw_df['cholesterol'], prefix="cholesterol")
 gluc_encoding = pd.get_dummies(raw_df['gluc'], prefix="gluc")
@@ -138,38 +132,43 @@ raw_df = raw_df.drop(["gender"], axis=1)
 
 raw_df.to_csv('clean_df.csv', index = False)
 clean_df = pd.read_csv("clean_df.csv")
+clean_df = clean_df.sort_index(axis=1)
 
 df_X = clean_df.drop(["id", "cardio"], axis=1)
 df_y = clean_df.loc[:, "cardio"]
-X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.3, random_state=42)
+
+joblib.dump(df_X.columns, 'data_columns.pkl') 
+
+X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2, random_state=42)
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 print(X_train, X_test)
 
+joblib.dump(scaler, 'std_scaler.pkl') 
+
+
 classifier = Sequential()
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = df_X.shape[1]))
-# classifier.add(Dropout(0.2))
+classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 16, kernel_initializer = 'uniform', activation = 'relu'))
-# classifier.add(Dropout(0.2))
+classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 32, kernel_initializer = 'uniform', activation = 'relu'))
-# classifier.add(Dropout(0.2))
+classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 64, kernel_initializer = 'uniform', activation = 'relu'))
-# classifier.add(Dropout(0.2))
+classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 
-classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 70, epochs = 20)
+classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 70, epochs = 5)
 
 generate_report()
 
 classifier.summary()
 
-# classifier = load_model('my_model.h5')
-
 # save the model so created above into a picle.
-classifier.save('my_model.h5')
+classifier.save('classifier_model.h5')
 
 
