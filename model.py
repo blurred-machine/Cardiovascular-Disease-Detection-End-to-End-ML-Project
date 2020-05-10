@@ -23,8 +23,6 @@ from scipy.stats import norm ,rankdata
 
 from scipy.special import boxcox1p
 from scipy.stats import normaltest
-import statsmodels
-import statsmodels.api as sm
 from scipy.optimize import curve_fit
 
 import tensorflow as tf
@@ -115,22 +113,22 @@ raw_df['ap_hi'] = feature_engg(raw_df['ap_hi'])
 raw_df['ap_lo'] = feature_engg(raw_df['ap_lo'])
 '''
 
+'''
 cholesterol_encoding = pd.get_dummies(raw_df['cholesterol'], prefix="cholesterol")
 gluc_encoding = pd.get_dummies(raw_df['gluc'], prefix="gluc")
 gender_encoding = pd.get_dummies(raw_df['gender'], prefix="gender")
 
 raw_df = pd.concat([raw_df, cholesterol_encoding], axis=1)
 raw_df = raw_df.drop(["cholesterol"], axis=1)
-
 raw_df = pd.concat([raw_df, gluc_encoding], axis=1)
 raw_df = raw_df.drop(["gluc"], axis=1)
-
 raw_df = pd.concat([raw_df, gender_encoding], axis=1)
 raw_df = raw_df.drop(["gender"], axis=1)
-
-
+'''
 
 raw_df.to_csv('clean_df.csv', index = False)
+
+
 clean_df = pd.read_csv("clean_df.csv")
 clean_df = clean_df.sort_index(axis=1)
 
@@ -151,18 +149,13 @@ joblib.dump(scaler, 'std_scaler.pkl')
 
 classifier = Sequential()
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = df_X.shape[1]))
-classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 16, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 32, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dropout(0.2))
-classifier.add(Dense(units = 64, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dropout(0.2))
 classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'sigmoid'))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 
-classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 70, epochs = 5)
+classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 10, epochs = 10)
 
 generate_report()
 
