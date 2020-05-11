@@ -74,11 +74,13 @@ def clean_data(df):
     df["weight"] = rank_based_normalization(df["weight"])
     df["ap_lo"] = rank_based_normalization(df["ap_lo"])
     df["ap_hi"] = rank_based_normalization(df["ap_hi"])
-'''
+
     df = pd.get_dummies(data = df,  columns=["cholesterol"], drop_first = False)
     df = pd.get_dummies(data = df,  columns=["gender"], drop_first = False)
     df = pd.get_dummies(data = df,  columns=["gluc"], drop_first = False)
-    
+ '''
+    df = df.astype(float)
+    df["gender"][df["gender"][df["gender"] == 2].index] = 0
     return df
 
 
@@ -90,7 +92,9 @@ def standardize_data(df):
 
 
 def predict_value(df):
-    clf = load_model('classifier_model.h5')
+    #clf = load_model('classifier_model.h5')
+    clf = joblib.load("classifier_model.pkl")
+
     pred = clf.predict(df) 
     print("MAIN_PRED : "+str(pred))
     for i in range(len(pred)):
@@ -109,6 +113,8 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     form_data = request.form.to_dict()
+    print("FORM DATA")
+    print(form_data)
     
     df_input = pd.DataFrame.from_records([form_data])
     df_input = df_input.drop(['submitBtn'], axis=1)
@@ -126,8 +132,8 @@ def predict():
     main_df = main_df.fillna(0)
     print("MAIN DATAFRAME")
     print(main_df)
-    print(main_df.columns)
-    print(main_cols)
+    print(main_df.info())
+    print()
     
     final_df = standardize_data(main_df)
     print("FINAL DATAFRAME")

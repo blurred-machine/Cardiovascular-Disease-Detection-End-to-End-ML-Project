@@ -51,23 +51,28 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.metrics import classification_report,confusion_matrix
 import xgboost as xgb
 
+
+
 raw_df = pd.read_csv("cardio_train.csv", sep=";")
 print(raw_df.columns)
- 
+
+''' 
 z = np.abs(stats.zscore(raw_df))
 Q1 = raw_df.quantile(0.25)
 Q3 = raw_df.quantile(0.75)
 IQR = Q3 - Q1
 print(IQR)
-
+'''
+'''
 raw_df[["age", "height", "weight", "ap_hi"]] = raw_df[["age", "height", "weight", "ap_hi"]][(z < 3.5).all(axis=1)]
 print(raw_df.shape)
 print( raw_df["ap_hi"].shape)
 print(raw_df.isna().sum())
-
 raw_df = raw_df.ix[raw_df["age"] > 0]
-
-
+'''
+raw_df["gender"] = raw_df["gender"].astype(int)
+raw_df["gender"][raw_df["gender"][raw_df["gender"] == 2].index] = 0
+raw_df = raw_df.astype(float)
 
 '''
 def rank_based_normalization(x):  
@@ -146,7 +151,7 @@ print(X_train, X_test)
 
 joblib.dump(scaler, 'std_scaler.pkl') 
 
-
+'''
 classifier = Sequential()
 classifier.add(Dense(units = 6, kernel_initializer = 'uniform', activation = 'relu', input_dim = df_X.shape[1]))
 classifier.add(Dense(units = 16, kernel_initializer = 'uniform', activation = 'relu'))
@@ -155,13 +160,22 @@ classifier.add(Dense(units = 1, kernel_initializer = 'uniform', activation = 'si
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 
-classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 10, epochs = 10)
+classifier.fit(df_X, df_y, validation_split=0.33, batch_size = 10, epochs = 2)
+'''
 
-generate_report()
+classifier = xgb.XGBClassifier()
+classifier.fit(X_train, y_train)
 
-classifier.summary()
+print("Training: "+str(classifier.score(X_train, y_train)))
+print("Testing: "+str(classifier.score(X_test, y_test)))
 
-# save the model so created above into a picle.
-classifier.save('classifier_model.h5')
+
+# generate_report()
+
+# classifier.summary()
+
+# classifier.save('classifier_model.h5')
+joblib.dump(classifier, 'classifier_model.pkl') 
+
 
 

@@ -52,36 +52,81 @@
   opacity: 1;
   right: 0;
 }
+
+label{
+	color: white
+}
     </style>
+}
 </head>
 <body style="background-color: #6A359C; text-align: center">
     <div style="  text-align: center;">
       <h1 style="color: #FFF">Cardiovascular Disease Detection Portal</h1>
       <div class="container">
     <div class="row">
-      <div class="col-sm-offset-3 col-sm-6 col-sm-offset-3">
-  <form action="/predict" method="POST">
+      <div class="col-xl-offset-3 col-xl-6 col-xl-offset-3">
+        
+        <form action="/predict" method="POST">
+          <div class="form-group form-inline" style="margin: 25px;">
+          	 <label for="age">Age:</label>
+              <input type="text" id="age" name="age" class="form-control" style="margin: 3px" placeholder="Age"><br>
 
-    <div style="margin: 25px;">
-        <input type="text" name="age" class="form-control" style="margin: 3px" placeholder="Age">
-        <input type="text" name="height" class="form-control" style="margin: 3px" placeholder="Height (cm)">
-        <input type="text" name="weight" class="form-control" style="margin: 3px" placeholder="Weight (Kg)">        
-        <input type="text" name="gender" class="form-control" style="margin: 3px" placeholder="Gender">
+              <label for="height">Height:</label>
+              <input type="text" id="height" name="height" class="form-control" style="margin: 3px" placeholder="Height (cm)"><br>
 
-        <input type="text" name="ap_hi" class="form-control" style="margin: 3px" placeholder="Systolic blood pressure ">
-        <input type="text" name="ap_lo" class="form-control" style="margin: 3px" placeholder="Diastolic blood pressure">
-        <input type="text" name="cholesterol" class="form-control" style="margin: 3px" placeholder="Cholesterol">
-        <input type="text" name="gluc" class="form-control" style="margin: 3px" placeholder="Glucose">
+              <label for="weight">Weight:</label>
+              <input type="text" id="weight" name="weight" class="form-control" style="margin: 3px" placeholder="Weight (Kg)"><br> 
 
-        <input type="text" name="smoke" class="form-control" style="margin: 3px" placeholder="Smoke">
-        <input type="text" name="alco" class="form-control" style="margin: 3px" placeholder="Alcohol">
-        <input type="text" name="active" class="form-control" style="margin: 3px" placeholder="Physical Activity">
-    </div>
-        <button class="button" type="submit" name="submitBtn"><span>Test </span></button>
+              <label for="gender">Gender:</label>
+      		<select id="gender" name="gender" class="form-control" style="margin: 3px">
+      		  <option value="1">Male</option>
+      		  <option value="0">Female</option>
+      		</select><br>
+
+              <label for="ap_hi">Systolic blood pressure:</label>
+              <input type="text" id="ap_hi" name="ap_hi" class="form-control" style="margin: 3px" placeholder="Systolic blood pressure"><br>
+
+              <label for="ap_lo">Diastolic blood pressure:</label>
+              <input type="text" id="ap_lo" name="ap_lo" class="form-control" style="margin: 3px" placeholder="Diastolic blood pressure"><br>
+
+              <label for="cholesterol">Cholesterol:</label>
+      		<select id="cholesterol" name="cholesterol" class="form-control" style="margin: 3px" placeholder="Cholesterol">
+      		  <option value="1">Normal</option>
+      		  <option value="2">Above normal</option>
+      		  <option value="3">Well above normal</option>
+      		</select><br>
+
+      		<label for="gluc">Glucose:</label>
+      		<select id="gluc" name="gluc" class="form-control" style="margin: 3px" placeholder="Glucose">
+      		  <option value="1">Normal</option>
+      		  <option value="2">Above normal</option>
+      		  <option value="3">Well above normal</option>
+      		</select><br>
+
+      		<label for="smoke">Smoke:</label>
+      		<select id="smoke" name="smoke" class="form-control" style="margin: 3px" placeholder="Smoke">
+      		  <option value="0">No</option>
+      		  <option value="1">Yes</option>
+      		</select><br>
+
+      		<label for="alco">Alcohol:</label>
+      		<select id="alco" name="alco" class="form-control" style="margin: 3px" placeholder="Alcohol">
+      		  <option value="0">No</option>
+      		  <option value="1">Yes</option>
+      		</select><br>
+
+      		<label for="active">Physical Activit:</label>
+      		<select id="active" name="active" class="form-control" style="margin: 3px" placeholder="Physical Activit">
+      		  <option value="1">Yes</option>
+      		  <option value="0">No</option>
+      		</select><br>
+
+          </div>
+              <button class="button" type="submit" name="submitBtn"><span>Test </span></button>
 
 
 
-  </form>
+        </form>
 	<h3 style="color: white;">
 	{{predicted_value}}
 	</h3>
