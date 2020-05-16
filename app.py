@@ -46,56 +46,25 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import PowerTransformer
 
 
-from sklearn.cluster import KMeans
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import KFold, cross_val_score, train_test_split
-from sklearn.metrics import classification_report,confusion_matrix
-import xgboost as xgb
-
 app = Flask(__name__)
 
 
-def rank_based_normalization(x):  
-    newX = norm.ppf(rankdata(x)/(len(x) + 1))
-    return newX
-
-
 def clean_data(df):
-    '''
-    df["age"] = rank_based_normalization(df["age"])
-    df["height"] = rank_based_normalization(df["height"])
-    df["weight"] = rank_based_normalization(df["weight"])
-    df["ap_lo"] = rank_based_normalization(df["ap_lo"])
-    df["ap_hi"] = rank_based_normalization(df["ap_hi"])
-
-    df = pd.get_dummies(data = df,  columns=["cholesterol"], drop_first = False)
-    df = pd.get_dummies(data = df,  columns=["gender"], drop_first = False)
-    df = pd.get_dummies(data = df,  columns=["gluc"], drop_first = False)
- '''
-    df = df.astype(float)
-    df["gender"][df["gender"][df["gender"] == 2].index] = 0
-    return df
+    #TODO:
+    new_df = df.astype("float")
+    return new_df
 
 
 
 def standardize_data(df):        
-    scaler = joblib.load("std_scaler.pkl")
     new_df = scaler.transform(df)
     return new_df
 
 
-def predict_value(df):
+def predict_value(dff):
     #clf = load_model('classifier_model.h5')
-    clf = joblib.load("classifier_model.pkl")
 
-    pred = clf.predict(df) 
+    pred = clf.predict(dff) 
     print("MAIN_PRED : "+str(pred))
     for i in range(len(pred)):
         if pred[i] >= 0.5:
@@ -105,7 +74,6 @@ def predict_value(df):
     return [pred, prediction]
 
     
-
 @app.route('/')
 def index():
     return flask.render_template('index.html')
@@ -126,7 +94,6 @@ def predict():
     print("CLEAN DATAFRAME")
     print(clean_df)  
 
-    main_cols = joblib.load("data_columns.pkl")
     sample_df = pd.DataFrame(columns = main_cols)
     main_df = sample_df.append(clean_df)
     main_df = main_df.fillna(0)
@@ -141,9 +108,13 @@ def predict():
         
     pred = predict_value(final_df)
     pred_percent = pred[0]
-    prediction = pred[1]
+    pred_value = pred[1]
         
-    return flask.render_template('index.html', predicted_value="Diagnosis report: {} with percent: {}%".format(str(prediction), str(pred_percent)))
+    return flask.render_template('index.html', predicted_value="Diagnosis report: {} with percent: {}%".format(str(pred_value), str(pred_percent)))
 
 if __name__ == '__main__':
+    main_cols = joblib.load("data_columns.pkl")
+    clf = joblib.load("classifier_model.pkl")
+    scaler = joblib.load("std_scaler.pkl")
+
     app.run(host='0.0.0.0', port=8080)
