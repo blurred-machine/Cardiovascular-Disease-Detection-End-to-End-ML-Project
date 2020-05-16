@@ -53,6 +53,11 @@ app = Flask(__name__)
 
 def clean_data(df):
     #TODO:
+    try:
+        df = df.drop(["id"], axis=1)
+    except:
+        print("Custom Error: 'id' column does not exist")
+    
     new_df = df.astype("float")
     return new_df
 
@@ -67,8 +72,8 @@ def predict_value(dff):
     #clf = load_model('classifier_model.h5')
     pred = clf.predict(dff) 
     print("FINAL PREDICTION VALUE: ")
-    print(pred[0])
-    return pred[0]
+    print(pred)
+    return pred
 
     
 @app.route('/')
@@ -103,7 +108,7 @@ def predict_individual():
     print("FINAL DATAFRAME")
     print(final_df)
         
-    pred = predict_value(final_df)
+    pred = predict_value(final_df)[0]
         
     return flask.render_template('index.html', predicted_value="Diagnosis report: {}".format(str(pred)))
 
@@ -112,8 +117,36 @@ def predict_individual():
 def predict_multiple():
     form_data = request.form.to_dict()
     print("FORM DATA")
-    print(form_data)
-    return jsonify({'prediction': form_data})
+    form_data_array = np.array(form_data["myarray"])
+    print(form_data_array)
+
+    js_df = pd.read_json(form_data["myarray"])
+    
+    df_input = pd.DataFrame.from_records(js_df)
+    df_input.columns = df_input.iloc[0]
+    df_input = df_input.iloc[1:, :]
+    print("INPUT DATAFRAME")
+    print(df_input)
+    
+    clean_df = clean_data(df_input)
+    print("CLEAN DATAFRAME")
+    print(clean_df)   
+    
+    sample_df = pd.DataFrame(columns = main_cols)
+    main_df = sample_df.append(clean_df)
+    main_df = main_df.fillna(0)
+    print("MAIN DATAFRAME")
+    print(main_df)
+    print(main_df.info())
+    print()
+    
+    final_df = standardize_data(main_df)
+    print("FINAL DATAFRAME")
+    print(final_df)
+        
+    pred = predict_value(final_df)
+
+    return jsonify({'prediction': str(pred)})
     #return flask.render_template('index.html', predicted_value="Diagnosis report: {}".format(str(pred)))
 
 

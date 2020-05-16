@@ -19,7 +19,11 @@
 		Papa.parse(file, {
 			complete: function(results) {
 				console.log("AAA: ", results);
-				var myJSON = JSON.stringify(results.data);
+
+				var data_arr = results.data;
+				var element = data_arr.pop();
+				console.log("remove last element: ", element);
+				var myJSON = JSON.stringify(data_arr);
 				console.log("PPPPPP: ", myJSON);
 
 
