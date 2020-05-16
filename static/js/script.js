@@ -42,6 +42,30 @@
 		});
 	};
 
+function download_data(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+
+window.addEventListener('online', () => console.log('came online'));
+window.addEventListener('offline', () => console.log('came offline'));
+
+
+
+
+
+
+
+
+
+
 if (browserSupportFileUpload()) {
 		document.getElementById('txtFileUpload').addEventListener('change', uploadFile, false);
 	} else {

@@ -18,38 +18,38 @@
 
 		<div class="login-form">
 			<div class="single-user-htm">
-				<form action="/predict" method="POST">
+				<form action="/predict-single" method="POST">
 	
 					<div class="group">
 						<label for="age" class="label">Age</label>
-						<input id="age" name="age" type="text" class="input">
+						<input id="age" name="age" type="number" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="height" class="label">Height</label>
-						<input id="height" name="height" type="text" class="input">
+						<input id="height" name="height" type="number" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="weight" class="label">Weight</label>
-						<input id="weight" name="weight" type="text" class="input">
+						<input id="weight" name="weight" type="number" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="gender" class="label">Gender</label>
-						<select id="gender" name="gender" class="input" id="input_select">
+						<select id="gender" name="gender" class="input" id="input_select" required>
 							<option value="1">Male</option>
 	      		  			<option value="2">Female</option>
 						</select>
 					</div>
 					<div class="group">
 						<label for="ap_hi" class="label">Systolic blood pressure</label>
-						<input id="ap_hi" name="ap_hi" type="text" class="input">
+						<input id="ap_hi" name="ap_hi" type="number" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="ap_lo" class="label">Diastolic blood pressure</label>
-						<input id="ap_lo" name="ap_lo" type="text" class="input">
+						<input id="ap_lo" name="ap_lo" type="number" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="cholesterol" class="label">Cholesterol</label>
-						<select id="cholesterol" name="cholesterol" class="input" id="input_select">
+						<select id="cholesterol" name="cholesterol" class="input" id="input_select" required>
 							<option value="1">Normal</option>
 				      		<option value="2">Above normal</option>
 				      		<option value="3">Well above normal</option>
@@ -57,7 +57,7 @@
 					</div>
 					<div class="group">
 						<label for="gluc" class="label">Glucose</label>
-						<select id="gluc" name="gluc" class="input" id="input_select">
+						<select id="gluc" name="gluc" class="input" id="input_select" required>
 							<option value="1">Normal</option>
 				      		<option value="2">Above normal</option>
 				      		<option value="3">Well above normal</option>
@@ -65,21 +65,21 @@
 					</div>
 					<div class="group">
 						<label for="smoke" class="label">Smoke</label>
-						<select id="smoke" name="smoke" class="input" id="input_select">
+						<select id="smoke" name="smoke" class="input" id="input_select" required>
 							<option value="0">No</option>
 	      		  			<option value="1">Yes</option>
 						</select>
 					</div>
 					<div class="group">
 						<label for="alco" class="label">Alcohol</label>
-						<select id="alco" name="alco" class="input" id="input_select">
+						<select id="alco" name="alco" class="input" id="input_select" required>
 							<option value="0">No</option>
 	      		  			<option value="1">Yes</option>
 						</select>
 					</div>
 					<div class="group">
 						<label for="active" class="label">Physical Activity</label>
-						<select id="active" name="active" class="input" id="input_select">
+						<select id="active" name="active" class="input" id="input_select" required>
 							<option value="0">No</option>
 	      		  			<option value="1">Yes</option>
 						</select>
@@ -88,7 +88,7 @@
 					
 					<div class="group">
 						<!-- <input type="submit" class="button" name="submitBtn" value="Test"> -->
-						<button class="button" type="submit" name="submitBtn">Diagnose Patient</button>
+						<button class="button" type="submit">Diagnose Patient</button>
 					</div>
 					<div class="hr">
 						<h3>
@@ -101,24 +101,23 @@
 				</form>
 			</div>
 			<div class="multi-user-htm">
-				<form id="upload-form" action="/predict_multi" method="POST">
+				<form id="upload-form" action="/predict-multiple" method="POST">
 					<div class="group">
 						<label for="user" class="label">File Upload</label>
-						<fieldset>
-							<input type="file" class="input" name="file_upload" id="txtFileUpload" accept=".csv" />
-						</fieldset>
+							<input type="file" class="input" name="file_upload" id="txtFileUpload" accept=".csv" required />
 						
-						<ul id="statOutPut" class="outPut">
-							<li>Total number of integers: <span data-bind="text: countOfIntegers">null</span></li>	
-							<li>Mean value of all integers (to three decimal places): <span data-bind="text: meanOfIntegers">null</span></li>	
-							<li>Highest number of integers in a single line: <span data-bind="text: highestLength">null</span></li>			
-							<li>Most common integer: <span data-bind="text: commonInteger">null</span></li>				
+						<h3>Rules:</h3>
+						<ul>
+							<li>Upload only ".csv" files containing patients information.</li>	
+							<li>Internet connectivity is required!</li>	
+							<li>Check the input fields names properly.</li>			
+							<li>Best of Luck!</li>				
 						</ul>
 
 					</div>
 					
 					<div class="group">
-						<button class="button" type="submit">Diagnose Patients</button>
+						<button id="multiple-patients-button" class="button" type="submit">Diagnose Patients</button>
 					</div>
 					<div class="hr">
 						

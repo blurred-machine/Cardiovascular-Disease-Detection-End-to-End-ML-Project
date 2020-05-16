@@ -56,8 +56,15 @@ def clean_data(df):
     try:
         df = df.drop(["id"], axis=1)
     except:
-        print("Custom Error: 'id' column does not exist")
+        print("Custom Error: 'id' column does not exist.")
     
+    try:
+        df = df.drop(["cardio"], axis=1)
+    except:
+        print("Custom Error: 'cardio' column does not exist.")
+
+
+    df = df.reindex(sorted(df.columns), axis=1)
     new_df = df.astype("float")
     return new_df
 
@@ -80,14 +87,13 @@ def predict_value(dff):
 def index():
     return flask.render_template('index.html')
 
-@app.route('/predict', methods=['POST'])
+@app.route('/predict-single', methods=['POST'])
 def predict_individual():
     form_data = request.form.to_dict()
     print("FORM DATA")
     print(form_data)
     
     df_input = pd.DataFrame.from_records([form_data])
-    df_input = df_input.drop(['submitBtn'], axis=1)
     df_input = pd.DataFrame(df_input)
     print("INPUT DATAFRAME")
     print(df_input)
@@ -109,11 +115,15 @@ def predict_individual():
     print(final_df)
         
     pred = predict_value(final_df)[0]
+    if pred == 0:
+        pred_val = "Ouch!, You have a high chance of having a Cardiovascular Disease. Please contact a Cardiologist as soon as possible!"
+    else:
+        pred_val = "Wohoo! You are perfectly fine!!"
         
-    return flask.render_template('index.html', predicted_value="Diagnosis report: {}".format(str(pred)))
+    return flask.render_template('index.html', predicted_value="{}".format(str(pred_val)))
 
 
-@app.route('/predict_multi', methods=['POST'])
+@app.route('/predict-multiple', methods=['POST'])
 def predict_multiple():
     form_data = request.form.to_dict()
     print("FORM DATA")
@@ -145,8 +155,14 @@ def predict_multiple():
     print(final_df)
         
     pred = predict_value(final_df)
+    
+    res = pd.DataFrame({"id": df_input["id"], "prediction": pred})
+    print("RESULT")
+    print(res)
+    
+    res_json = res.to_json(orient='records')
 
-    return jsonify({'prediction': str(pred)})
+    return res_json
     #return flask.render_template('index.html', predicted_value="Diagnosis report: {}".format(str(pred)))
 
 

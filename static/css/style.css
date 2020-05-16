@@ -15,7 +15,7 @@ a{color:inherit;text-decoration:none}
 	max-width:525px;
 	min-height:1150px;
 	position:relative;
-	background:url(https://raw.githubusercontent.com/paras009/Cardiovascular-Disease-Detection/master/static/css/bg.jpg?token=AGEPDXGEH5EBOOZDYWFZY5S6ZE22A) no-repeat center;
+	background:url(bg.jpg) no-repeat center;
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
