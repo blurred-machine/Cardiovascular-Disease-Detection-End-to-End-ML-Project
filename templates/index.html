@@ -6,6 +6,7 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
   <!-- <link rel="stylesheet" href="./static/style.css"> -->
     <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 
 </head>
@@ -13,11 +14,11 @@
 <!-- partial:index.partial.html -->
 <div class="login-wrap">
 	<div class="login-html">
-		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Input Data</label>
-		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">upload CSV</label>
+		<input id="tab-1" type="radio" name="tab" class="single-user" checked><label for="tab-1" class="tab">INDIVIDUAL</label>
+		<input id="tab-2" type="radio" name="tab" class="multi-user"><label for="tab-2" class="tab">MULTI-TEST</label>
 
 		<div class="login-form">
-			<div class="sign-in-htm">
+			<div class="single-user-htm">
 				<form action="/predict" method="POST">
 	
 					<div class="group">
@@ -78,7 +79,7 @@
 						</select>
 					</div>
 					<div class="group">
-						<label for="active" class="label">Physical Activit</label>
+						<label for="active" class="label">Physical Activity</label>
 						<select id="active" name="active" class="input" id="input_select">
 							<option value="0">No</option>
 	      		  			<option value="1">Yes</option>
@@ -91,16 +92,16 @@
 						<button class="button" type="submit" name="submitBtn">Diagnose Patient</button>
 					</div>
 					<div class="hr">
-						<h3 style="color: white;">
+						<h3>
 						{{predicted_value}}
 						</h3></br>
 					</div>
-					<div class="foot-lnk">
+				<!-- 	<div class="foot-lnk">
 						<a href="#forgot">Forgot Password?</a>
-					</div>
+					</div> -->
 				</form>
 			</div>
-			<div class="sign-up-htm">
+			<div class="multi-user-htm">
 				<div class="group">
 					<label for="user" class="label">Username</label>
 					<input id="user" type="text" class="input">

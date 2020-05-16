@@ -1,5 +1,5 @@
 body{
-	margin:0;
+	margin:30px;
 	color:#6a6f8c;
 	background:#c8c8c8;
 	font:600 16px/18px 'Open Sans',sans-serif;
@@ -13,9 +13,9 @@ a{color:inherit;text-decoration:none}
 	width:100%;
 	margin:auto;
 	max-width:525px;
-	min-height:200px;
+	min-height:1150px;
 	position:relative;
-	background:url("./bg.jpg") no-repeat center;
+	background:url(https://raw.githubusercontent.com/paras009/Cardiovascular-Disease-Detection/master/static/css/bg.jpg?token=AGEPDXGEH5EBOOZDYWFZY5S6ZE22A) no-repeat center;
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
@@ -25,8 +25,8 @@ a{color:inherit;text-decoration:none}
 	padding:90px 70px 50px 70px;
 	background:rgba(40,57,101,.9);
 }
-.login-html .sign-in-htm,
-.login-html .sign-up-htm{
+.login-html .single-user-htm,
+.login-html .multi-user-htm{
 	top:0;
 	left:0;
 	right:0;
@@ -39,8 +39,8 @@ a{color:inherit;text-decoration:none}
 	-webkit-transition:all .4s linear;
 	transition:all .4s linear;
 }
-.login-html .sign-in,
-.login-html .sign-up,
+.login-html .single-user,
+.login-html .multi-user,
 .login-form .group .check{
 	display:none;
 }
@@ -57,8 +57,8 @@ a{color:inherit;text-decoration:none}
 	display:inline-block;
 	border-bottom:2px solid transparent;
 }
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab{
+.login-html .single-user:checked + .tab,
+.login-html .multi-user:checked + .tab{
 	color:#fff;
 	border-color:#1161ee;
 }
@@ -146,19 +146,20 @@ a{color:inherit;text-decoration:none}
 	-webkit-transform:scale(1) rotate(-45deg);
 	        transform:scale(1) rotate(-45deg);
 }
-.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
+.login-html .single-user:checked + .tab + .multi-user + .tab + .login-form .single-user-htm{
 	-webkit-transform:rotate(0);
 	        transform:rotate(0);
 }
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
+.login-html .multi-user:checked + .tab + .login-form .multi-user-htm{
 	-webkit-transform:rotate(0);
 	        transform:rotate(0);
 }
 
 .hr{
-	height:2px;
 	margin:30px 0 50px 0;
-	background:rgba(255,255,255,.2);
+	color: white; 
+	position: center; 
+	text-align: center; 
 }
 .foot-lnk{
 	text-align:center;
