@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang=”en”>
+<head>
+    <meta charset="UTF-8">
+
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}"> -->
+    <!-- <link rel= "stylesheet" type= "text/css" href= "../static/styles/mainpage.css"> -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Cardiovascular Disease Detection</title>
+    <style type="text/css">
+        .button {
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 28px;
+  padding: 10px;
+  width: 150px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+label{
+	color: white
+}
+    </style>
+}
+</head>
+<body style="background-color: #6A359C; text-align: center">
+    <div style="  text-align: center;">
+      <h1 style="color: #FFF">Cardiovascular Disease Detection Portal</h1>
+      <div class="container">
+    <div class="row">
+      <div class="col-md-offset-4 col-md-4 col-md-offset-4">
+
+        <form action="/predict" method="POST">
+          <div class="form-group " style="margin: 15px;">
+          	 <label for="age">Age:</label>
+              <input type="text" id="age" name="age" class="form-control" style="margin: 1px" placeholder="Age"><br>
+
+              <label for="height">Height:</label>
+              <input type="text" id="height" name="height" class="form-control" style="margin: 1px" placeholder="Height (cm)"><br>
+
+              <label for="weight">Weight:</label>
+              <input type="text" id="weight" name="weight" class="form-control" style="margin: 1px" placeholder="Weight (Kg)"><br> 
+
+              <label for="gender">Gender:</label>
+      		<select id="gender" name="gender" class="form-control" style="margin: 1px">
+      		  <option value="1">Male</option>
+      		  <option value="2">Female</option>
+      		</select><br>
+
+              <label for="ap_hi">Systolic blood pressure:</label>
+              <input type="text" id="ap_hi" name="ap_hi" class="form-control" style="margin: 1px" placeholder="Systolic blood pressure"><br>
+
+              <label for="ap_lo">Diastolic blood pressure:</label>
+              <input type="text" id="ap_lo" name="ap_lo" class="form-control" style="margin: 1px" placeholder="Diastolic blood pressure"><br>
+
+              <label for="cholesterol">Cholesterol:</label>
+      		<select id="cholesterol" name="cholesterol" class="form-control" style="margin: 1px" placeholder="Cholesterol">
+      		  <option value="1">Normal</option>
+      		  <option value="2">Above normal</option>
+      		  <option value="3">Well above normal</option>
+      		</select><br>
+
+      		<label for="gluc">Glucose:</label>
+      		<select id="gluc" name="gluc" class="form-control" style="margin: 1px" placeholder="Glucose">
+      		  <option value="1">Normal</option>
+      		  <option value="2">Above normal</option>
+      		  <option value="3">Well above normal</option>
+      		</select><br>
+
+      		<label for="smoke">Smoke:</label>
+      		<select id="smoke" name="smoke" class="form-control" style="margin: 1px" placeholder="Smoke">
+      		  <option value="0">No</option>
+      		  <option value="1">Yes</option>
+      		</select><br>
+
+      		<label for="alco">Alcohol:</label>
+      		<select id="alco" name="alco" class="form-control" style="margin: 1px" placeholder="Alcohol">
+      		  <option value="0">No</option>
+      		  <option value="1">Yes</option>
+      		</select><br>
+
+      		<label for="active">Physical Activit:</label>
+      		<select id="active" name="active" class="form-control" style="margin: 1px" placeholder="Physical Activity">
+      		  <option value="1">Yes</option>
+      		  <option value="0">No</option>
+      		</select><br>
+
+          </div>
+
+              <button class="button" type="submit" name="submitBtn"><span>Test </span></button>
+        </form>
+
+
+
+		<h3 style="color: white;">Or</h3>
+		<form>
+			<div class="form-group">
+				<input id="fileSelect" class="form-control" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>  
+				<button class="butt" type="submit" name="submitBtn"><span>Test </span></button>
+			</div>	
+		</form>
+
+
+	<h3 style="color: white;">
+	{{predicted_value}}
+	</h3></br></br>
+</div>
+</div>
+</div>
+
+</div>
+
+
+</body>
+</html>

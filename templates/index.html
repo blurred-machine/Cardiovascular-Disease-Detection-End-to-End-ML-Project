@@ -1,141 +1,134 @@
 <!DOCTYPE html>
-<html lang=”en”>
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <title>fdf - Day 001 Login Form</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+  <!-- <link rel="stylesheet" href="./static/style.css"> -->
+    <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}"> -->
-    <!-- <link rel= "stylesheet" type= "text/css" href= "../static/styles/mainpage.css"> -->
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title>Cardiovascular Disease Detection</title>
-    <style type="text/css">
-        .button {
-  border-radius: 4px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 28px;
-  padding: 10px;
-  width: 150px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-}
-
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button:hover span {
-  padding-right: 25px;
-}
-
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
-
-label{
-	color: white
-}
-    </style>
-}
 </head>
-<body style="background-color: #6A359C; text-align: center">
-    <div style="  text-align: center;">
-      <h1 style="color: #FFF">Cardiovascular Disease Detection Portal</h1>
-      <div class="container">
-    <div class="row">
-      <div class="col-xl-offset-3 col-xl-6 col-xl-offset-3">
-        
-        <form action="/predict" method="POST">
-          <div class="form-group form-inline" style="margin: 25px;">
-          	 <label for="age">Age:</label>
-              <input type="text" id="age" name="age" class="form-control" style="margin: 3px" placeholder="Age"><br>
+<body>
+<!-- partial:index.partial.html -->
+<div class="login-wrap">
+	<div class="login-html">
+		<input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Input Data</label>
+		<input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">upload CSV</label>
 
-              <label for="height">Height:</label>
-              <input type="text" id="height" name="height" class="form-control" style="margin: 3px" placeholder="Height (cm)"><br>
+		<div class="login-form">
+			<div class="sign-in-htm">
+				<form action="/predict" method="POST">
+	
+					<div class="group">
+						<label for="age" class="label">Age</label>
+						<input id="age" name="age" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="height" class="label">Height</label>
+						<input id="height" name="height" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="weight" class="label">Weight</label>
+						<input id="weight" name="weight" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="gender" class="label">Gender</label>
+						<select id="gender" name="gender" class="input" id="input_select">
+							<option value="1">Male</option>
+	      		  			<option value="2">Female</option>
+						</select>
+					</div>
+					<div class="group">
+						<label for="ap_hi" class="label">Systolic blood pressure</label>
+						<input id="ap_hi" name="ap_hi" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="ap_lo" class="label">Diastolic blood pressure</label>
+						<input id="ap_lo" name="ap_lo" type="text" class="input">
+					</div>
+					<div class="group">
+						<label for="cholesterol" class="label">Cholesterol</label>
+						<select id="cholesterol" name="cholesterol" class="input" id="input_select">
+							<option value="1">Normal</option>
+				      		<option value="2">Above normal</option>
+				      		<option value="3">Well above normal</option>
+						</select>
+					</div>
+					<div class="group">
+						<label for="gluc" class="label">Glucose</label>
+						<select id="gluc" name="gluc" class="input" id="input_select">
+							<option value="1">Normal</option>
+				      		<option value="2">Above normal</option>
+				      		<option value="3">Well above normal</option>
+						</select>
+					</div>
+					<div class="group">
+						<label for="smoke" class="label">Smoke</label>
+						<select id="smoke" name="smoke" class="input" id="input_select">
+							<option value="0">No</option>
+	      		  			<option value="1">Yes</option>
+						</select>
+					</div>
+					<div class="group">
+						<label for="alco" class="label">Alcohol</label>
+						<select id="alco" name="alco" class="input" id="input_select">
+							<option value="0">No</option>
+	      		  			<option value="1">Yes</option>
+						</select>
+					</div>
+					<div class="group">
+						<label for="active" class="label">Physical Activit</label>
+						<select id="active" name="active" class="input" id="input_select">
+							<option value="0">No</option>
+	      		  			<option value="1">Yes</option>
+						</select>
+					</div>
 
-              <label for="weight">Weight:</label>
-              <input type="text" id="weight" name="weight" class="form-control" style="margin: 3px" placeholder="Weight (Kg)"><br> 
-
-              <label for="gender">Gender:</label>
-      		<select id="gender" name="gender" class="form-control" style="margin: 3px">
-      		  <option value="1">Male</option>
-      		  <option value="0">Female</option>
-      		</select><br>
-
-              <label for="ap_hi">Systolic blood pressure:</label>
-              <input type="text" id="ap_hi" name="ap_hi" class="form-control" style="margin: 3px" placeholder="Systolic blood pressure"><br>
-
-              <label for="ap_lo">Diastolic blood pressure:</label>
-              <input type="text" id="ap_lo" name="ap_lo" class="form-control" style="margin: 3px" placeholder="Diastolic blood pressure"><br>
-
-              <label for="cholesterol">Cholesterol:</label>
-      		<select id="cholesterol" name="cholesterol" class="form-control" style="margin: 3px" placeholder="Cholesterol">
-      		  <option value="1">Normal</option>
-      		  <option value="2">Above normal</option>
-      		  <option value="3">Well above normal</option>
-      		</select><br>
-
-      		<label for="gluc">Glucose:</label>
-      		<select id="gluc" name="gluc" class="form-control" style="margin: 3px" placeholder="Glucose">
-      		  <option value="1">Normal</option>
-      		  <option value="2">Above normal</option>
-      		  <option value="3">Well above normal</option>
-      		</select><br>
-
-      		<label for="smoke">Smoke:</label>
-      		<select id="smoke" name="smoke" class="form-control" style="margin: 3px" placeholder="Smoke">
-      		  <option value="0">No</option>
-      		  <option value="1">Yes</option>
-      		</select><br>
-
-      		<label for="alco">Alcohol:</label>
-      		<select id="alco" name="alco" class="form-control" style="margin: 3px" placeholder="Alcohol">
-      		  <option value="0">No</option>
-      		  <option value="1">Yes</option>
-      		</select><br>
-
-      		<label for="active">Physical Activit:</label>
-      		<select id="active" name="active" class="form-control" style="margin: 3px" placeholder="Physical Activit">
-      		  <option value="1">Yes</option>
-      		  <option value="0">No</option>
-      		</select><br>
-
-          </div>
-              <button class="button" type="submit" name="submitBtn"><span>Test </span></button>
-
-
-
-        </form>
-	<h3 style="color: white;">
-	{{predicted_value}}
-	</h3>
+					
+					<div class="group">
+						<!-- <input type="submit" class="button" name="submitBtn" value="Test"> -->
+						<button class="button" type="submit" name="submitBtn">Diagnose Patient</button>
+					</div>
+					<div class="hr">
+						<h3 style="color: white;">
+						{{predicted_value}}
+						</h3></br>
+					</div>
+					<div class="foot-lnk">
+						<a href="#forgot">Forgot Password?</a>
+					</div>
+				</form>
+			</div>
+			<div class="sign-up-htm">
+				<div class="group">
+					<label for="user" class="label">Username</label>
+					<input id="user" type="text" class="input">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Password</label>
+					<input id="pass" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Repeat Password</label>
+					<input id="pass" type="password" class="input" data-type="password">
+				</div>
+				<div class="group">
+					<label for="pass" class="label">Email Address</label>
+					<input id="pass" type="text" class="input">
+				</div>
+				<div class="group">
+					<input type="submit" class="button" value="Sign Up">
+				</div>
+				<div class="hr"></div>
+				<div class="foot-lnk">
+					<label for="tab-1">Already Member?</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-</div>
-</div>
-
-</div>
-
-
+<!-- partial -->
+  
 </body>
 </html>
