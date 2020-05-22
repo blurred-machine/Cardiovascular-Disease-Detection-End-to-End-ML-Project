@@ -7,58 +7,11 @@ Created on Wed Apr 22 06:43:26 2020
 
 from flask import Flask, request
 import flask
+import joblib
 
-from sklearn.externals import joblib 
+
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-%matplotlib inline
-import seaborn as sns
-
-import warnings
-warnings.filterwarnings("ignore")
-
-from keras_tqdm import TQDMNotebookCallback
-from tqdm import tqdm
-
-import statsmodels
-import statsmodels.api as sm
-
-import scipy.stats as stats
-from scipy.stats import chi2_contingency
-from scipy.stats import normaltest
-from scipy.stats import norm ,rankdata
-from scipy.special import boxcox1p
-from scipy.optimize import curve_fit
-
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout
-from tensorflow.keras.wrappers.scikit_learn import KerasClassifier
-
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import KFold, cross_val_score, train_test_split
-
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, PowerTransformer
-from sklearn.externals import joblib 
-
-from sklearn.metrics import f1_score
-from sklearn.metrics import confusion_matrix, classification_report
-
-from sklearn.cluster import KMeans
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.multioutput import MultiOutputClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-
-import xgboost as xgb
-from xgboost import plot_importance
-
 
 app = Flask(__name__)
 
@@ -81,9 +34,7 @@ def bp_level(data):
         return 'extreme_high'
     
 def age_level(data):
-    if data["age"] < 30:
-        return '0'
-    if data['age'] >= 30 and data['age'] < 40:
+    if data["age"] < 40:
         return '1'
     if data['age'] >= 40 and data['age'] < 45:
         return '2'
@@ -93,10 +44,8 @@ def age_level(data):
         return '4'
     if data['age'] >= 55 and data['age'] < 60:
         return '5'
-    if data['age'] >= 60 and data['age'] < 70:
+    if data['age'] >= 60:
         return '6'
-    else:
-        return '7'
     
 def bmi_level(data):
     if data['bmi'] <= 18.5:
@@ -110,14 +59,10 @@ def bmi_level(data):
 #///////////////////////////////////////////////////////////////////////
 
 #///////////////////////////////////////////////////////////////////////
-def clean_data(raw_df): 
-    print("test0::::::::::::::::")
-    print(raw_df.shape)
-    
+def clean_data(raw_df):     
     raw_df['age'] = round(raw_df['age']/365.25).apply(lambda x: int(x))
-    
     raw_df['gender']= raw_df['gender'].apply(lambda x: 0 if x==2 else 1)
-
+    
     raw_df['bmi'] = raw_df.apply(find_bmi, axis=1, result_type='reduce')
     raw_df['bp_level'] = raw_df.apply(bp_level, axis=1, result_type='reduce')
     raw_df['age_level'] = raw_df.apply(age_level, axis=1, result_type='reduce')
@@ -153,11 +98,11 @@ def predict_individual():
     df_input = pd.DataFrame.from_records([form_data])
     df_input = pd.DataFrame(df_input)
     print("INPUT DATAFRAME")
-    print(df_input)
-       
+    print(df_input)       
     df_input = df_input.astype('int')
+    df_input['age'] = round(df_input['age']*365.25).apply(lambda x: int(x))
     print(df_input.info())
-    
+
     msg = ""
     ap_hi_more_mask = df_input['ap_hi'] > df_input['ap_lo']
     if ap_hi_more_mask.all() == False:

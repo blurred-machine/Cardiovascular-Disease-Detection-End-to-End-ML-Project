@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-from sklearn.externals import joblib 
+import joblib
 from tqdm import tqdm
 
 import warnings
