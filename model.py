@@ -133,7 +133,7 @@ for i in tqdm(range(len(df_cols)), position=0, leave=True):
         
 print(drop_list)
 raw_df.drop(drop_list, axis=1, inplace=True)
-joblib.dump(drop_list, 'drop_columns.pkl')
+joblib.dump(drop_list, './pickles/drop_columns.pkl')
 
 #///////////////////////////////////////////////////////////////////////
 raw_df.corr()
@@ -155,12 +155,12 @@ df_X = df_X.reindex(sorted(df_X.columns), axis=1)
 
 print(df_X.info())
 #///////////////////////////////////////////////////////////////////////
-joblib.dump(df_X.columns, 'data_columns.pkl')
+joblib.dump(df_X.columns, './pickles/data_columns.pkl')
 #///////////////////////////////////////////////////////////////////////
 scaler = MinMaxScaler()
 df_X = scaler.fit_transform(df_X)
 print(df_X)
-joblib.dump(scaler, 'std_scaler.pkl') 
+joblib.dump(scaler, './pickles/std_scaler.pkl') 
 #///////////////////////////////////////////////////////////////////////
 X_train, X_test, y_train, y_test = train_test_split(df_X, df_y, test_size=0.2, random_state=42)
 #///////////////////////////////////////////////////////////////////////
@@ -201,7 +201,7 @@ xgb_pred = xgb_model.predict(X_test)
 model_evaluation(y_test, xgb_pred)
 #/////////////////////////////////////////////////////////////////////
 # classifier.save('classifier_model.h5')
-joblib.dump(xgb_model, 'classifier_model.pkl') 
+joblib.dump(xgb_model, './pickles/classifier_model.pkl') 
 
 
 
