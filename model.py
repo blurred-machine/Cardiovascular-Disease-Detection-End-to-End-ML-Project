@@ -136,6 +136,8 @@ for i in tqdm(range(len(df_cols)), position=0, leave=True):
         
 print(drop_list)
 raw_df.drop(drop_list, axis=1, inplace=True)
+joblib.dump(drop_list, 'drop_columns.pkl')
+
 #///////////////////////////////////////////////////////////////////////
 raw_df.corr()
 f, ax = plt.subplots(figsize=(12, 10))
