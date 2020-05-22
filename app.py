@@ -205,10 +205,10 @@ def predict_multiple():
 
 
 if __name__ == '__main__':
-    main_cols = joblib.load("data_columns.pkl")
-    clf = joblib.load("classifier_model.pkl")
-    scaler = joblib.load("std_scaler.pkl")
-    drop_columns = joblib.load("drop_columns.pkl")
+    main_cols = joblib.load("./pickles/data_columns.pkl")
+    clf = joblib.load("./pickles/classifier_model.pkl")
+    scaler = joblib.load("./pickles/std_scaler.pkl")
+    drop_columns = joblib.load("./pickles/drop_columns.pkl")
     drop_columns.remove('id')
     
     app.run(host='0.0.0.0', port=8080)
