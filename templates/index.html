@@ -6,6 +6,7 @@
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
   <!-- <link rel="stylesheet" href="./static/style.css"> -->
     <link rel='stylesheet' type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
 
 </head>
@@ -22,15 +23,15 @@
 	
 					<div class="group">
 						<label for="age" class="label">Age</label>
-						<input id="age" name="age" type="number" step="any" class="input" required>
+						<input id="age" name="age" type="number" min="0" max="150" step="any" class="input" placeholder="in years" required>
 					</div>
 					<div class="group">
 						<label for="height" class="label">Height</label>
-						<input id="height" name="height" type="number" step="any" class="input" required>
+						<input id="height" name="height" type="number" min="100" max="250" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="weight" class="label">Weight</label>
-						<input id="weight" name="weight" type="number" step="any" class="input" required>
+						<input id="weight" name="weight" type="number" min="5" max="150" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="gender" class="label">Gender</label>
@@ -41,11 +42,11 @@
 					</div>
 					<div class="group">
 						<label for="ap_hi" class="label">Systolic blood pressure</label>
-						<input id="ap_hi" name="ap_hi" type="number" step="any" class="input" required>
+						<input id="ap_hi" name="ap_hi" type="number" min="90" max="250" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="ap_lo" class="label">Diastolic blood pressure</label>
-						<input id="ap_lo" name="ap_lo" type="number" step="any" class="input" required>
+						<input id="ap_lo" name="ap_lo" type="number" min="60" max="140" step="any" class="input" required>
 					</div>
 					<div class="group">
 						<label for="cholesterol" class="label">Cholesterol</label>
@@ -93,7 +94,11 @@
 					<div class="hr">
 						<h3>
 						{{predicted_value}}
-						</h3><br>
+						</h3>
+						<h3>
+						{{any_message}}
+						</h3>
+						<br>
 					</div>
 				<!-- 	<div class="foot-lnk">
 						<a href="#forgot">Forgot Password?</a>
@@ -120,8 +125,92 @@
 						<button id="multiple-patients-button" class="button" type="submit">Diagnose Patients</button>
 					</div>
 					<div class="hr">
-						
+						<div id="result_val" style="line-height: 0em; height: 0em; overflow: hidden;">
+						{{predicted_value_multi}}
+						</div>
+						<h3>
+						{{any_message_multi}}
+						</h3>
+						<br>
 					</div>
+
+						<script>
+
+							function JSON2CSV(objArray) {
+							    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+							    var str = '';
+							    var line = '';
+
+							    if ($("#labels").is(':checked')) {
+							        var head = array[0];
+							        if ($("#quote").is(':checked')) {
+							            for (var index in array[0]) {
+							                var value = index + "";
+							                line += '"' + value.replace(/"/g, '""') + '",';
+							            }
+							        } else {
+							            for (var index in array[0]) {
+							                line += index + ',';
+							            }
+							        }
+
+							        line = line.slice(0, -1);
+							        str += line + '\r\n';
+							    }
+
+							    for (var i = 0; i < array.length; i++) {
+							        var line = '';
+
+							        if ($("#quote").is(':checked')) {
+							            for (var index in array[i]) {
+							                var value = array[i][index] + "";
+							                line += '"' + value.replace(/"/g, '""') + '",';
+							            }
+							        } else {
+							            for (var index in array[i]) {
+							                line += array[i][index] + ',';
+							            }
+							        }
+
+							        line = line.slice(0, -1);
+							        str += line + '\r\n';
+							    }
+							    return str;
+							}
+
+
+							function download(text) {
+							    // var element = document.createElement('a');
+							    // element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+							    // element.setAttribute('download', 'cardio_predictions.txt');
+							    // element.style.display = 'none';
+							    // document.body.appendChild(element);
+							    // element.click();
+							    // document.body.removeChild(element);
+
+							    var json = $.parseJSON(text);
+								var csv = JSON2CSV(json);
+								var downloadLink = document.createElement("a");
+								var blob = new Blob(["\ufeff", csv]);
+								var url = URL.createObjectURL(blob);
+								downloadLink.href = url;
+								downloadLink.download = "cardio_predictions.csv";
+
+								document.body.appendChild(downloadLink);
+								downloadLink.click();
+								document.body.removeChild(downloadLink);
+							}
+
+						    var my_text = document.getElementById("result_val").innerText;	
+						    if(my_text != ""){
+						    	var res = confirm("Download Prediction?\nThe file will be downloaded in txt format with patient's id and predicted value. \n\n{{any_message_multi}}");
+						    	if(res){
+						    		download(my_text);
+						    	}
+						    }				    
+					
+						</script>
+
 				</form>
 			</div>
 		</div>

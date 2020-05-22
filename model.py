@@ -89,9 +89,7 @@ def bp_level(data):
 raw_df['bp_level'] = raw_df.apply(bp_level, axis=1)
 #///////////////////////////////////////////////////////////////////////
 def age_level(data):
-    if data["age"] < 30:
-        return '0'
-    if data['age'] >= 30 and data['age'] < 40:
+    if data["age"] < 40:
         return '1'
     if data['age'] >= 40 and data['age'] < 45:
         return '2'
@@ -101,10 +99,9 @@ def age_level(data):
         return '4'
     if data['age'] >= 55 and data['age'] < 60:
         return '5'
-    if data['age'] >= 60 and data['age'] < 70:
+    if data['age'] >= 60:
         return '6'
-    else:
-        return '7'
+
     
 raw_df['age_level'] = raw_df.apply(age_level, axis=1)
 #///////////////////////////////////////////////////////////////////////
@@ -154,6 +151,9 @@ clean_df = pd.read_csv("clean_df.csv")
 
 df_X = clean_df.drop(["cardio"], axis=1)
 df_y = clean_df.loc[:, "cardio"]
+df_X = df_X.reindex(sorted(df_X.columns), axis=1)
+
+print(df_X.info())
 #///////////////////////////////////////////////////////////////////////
 joblib.dump(df_X.columns, 'data_columns.pkl')
 #///////////////////////////////////////////////////////////////////////
