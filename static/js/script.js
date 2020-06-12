@@ -35,9 +35,6 @@
 				hiddenInput.value = myJSON
 
 				myForm.appendChild(hiddenInput)
-
-
-
 			}
 		});
 	};
@@ -56,14 +53,6 @@ function download_data(filename, text) {
 
 window.addEventListener('online', () => console.log('came online'));
 window.addEventListener('offline', () => console.log('came offline'));
-
-
-
-
-
-
-
-
 
 
 if (browserSupportFileUpload()) {

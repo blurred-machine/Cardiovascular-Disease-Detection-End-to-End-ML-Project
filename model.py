@@ -202,6 +202,3 @@ model_evaluation(y_test, xgb_pred)
 #/////////////////////////////////////////////////////////////////////
 # classifier.save('classifier_model.h5')
 joblib.dump(xgb_model, './pickles/classifier_model.pkl') 
-
-
-
